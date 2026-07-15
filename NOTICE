@@ -1,0 +1,12 @@
+Nemuri — open core
+Copyright 2026 Nemuri (https://nemuri.app)
+
+This product includes software developed by the Nemuri project.
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository contains the auditable open core of Nemuri: the privileged
+helper (root LaunchDaemon), the XPC contract, the local IPC protocol, the
+agent-config integration, and the hook bridges. The detection engine and the
+Nemuri app itself are not part of this repository and are not covered by this
+license — see README.md for the exact boundary.
