@@ -2,8 +2,18 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-![Nemuri 選單列面板](docs/panel.png)
+### Free —— 手動保持清醒
 
+![Nemuri Free 面板：手動保持清醒，無 agent 偵測](docs/panel-free.png)
+
+打開它，闔蓋也不睡。沒有偵測、沒有自動化——需要你自己關掉。這就是免費版做的事。
+
+### Pro —— 偵測自動化
+
+![Nemuri Pro 面板：正在看護兩個 agent，跑完自動睡](docs/panel-pro.png)
+
+Pro 看護你的 agent：只在它們真正幹活時保持清醒，有 agent 等你確認時通知你，跑完了把 Mac 放回去睡。
+**這塊面板背後的偵測引擎是閉源的，不在本 repo 裡。**
 **[Nemuri](https://nemuri.app/zh-hant/) 之中以 root 執行、會動到你設定檔、有可能偷偷連網的那些部分——全部公開出來，讓你可以自己查證。**
 
 Nemuri 是一款 macOS 選單列工具：AI agent（Claude Code、Codex）在工作時讓你的 Mac 保持清醒——闔上筆電也照跑——工作跑完再放它回去睡。
@@ -34,7 +44,7 @@ Nemuri 是一款 macOS 選單列工具：AI agent（Claude Code、Codex）在工
 ## ✅ 你可以在這裡驗證什麼
 
 - **root 攻擊面最小。** 助手剛好只公開三個 XPC 方法——`setSleepDisabled(Bool)`、`currentState()`、`ping()`——然後去呼叫 `/usr/bin/pmset`。沒有別的了。不執行任意指令，不在哨兵以外寫任何檔案，不連網。
-- **永不卡死在禁止睡眠。** 不管 app 當掉、被 kill，還是被解除安裝，`pmset disablesleep` 都必須回到 `0`。看門狗、60 秒哨兵自我檢查、開機時的復原，全都在 `Sources/Helper/main.swift` 裡。
+- **永不卡死在封鎖睡眠狀態。** 不管 app 當掉、被 kill，還是被解除安裝，`pmset disablesleep` 都必須回到 `0`。看門狗、60 秒哨兵自我檢查、開機時的復原，全都在 `Sources/Helper/main.swift` 裡。
 - **零網路。** 在這棵樹裡 grep 一下 `URLSession`、`Network`、`socket(`、`connect(`。唯一的 socket 是 `AF_UNIX`（本機 IPC）。助手從不與網際網路對話，授權啟用也一樣——Nemuri Pro 是由一份離線的 Ed25519 簽章檔案解鎖，在本機驗簽。飛航模式下也能用。
 - **你的設定有備份、可還原。** `Sources/Core/Installer.swift` 就是那段會改寫 `~/.claude/settings.json` 與 `~/.codex/config.toml` 的程式碼。它寫入前先備份，而且可以完整還原。
 

@@ -2,8 +2,20 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · **한국어**
 
-![Nemuri 메뉴 막대 패널](docs/panel.png)
+### Free — 수동 keep-awake 스위치
 
+![Nemuri Free 패널: 수동 keep-awake, agent 감지 없음](docs/panel-free.png)
+
+켜면 덮개를 닫아도 Mac이 깨어 있습니다. 감지도 자동화도 없습니다 — 직접 꺼야 합니다.
+무료 앱이 하는 일은 여기까지입니다.
+
+### Pro — 감지 자동화
+
+![Nemuri Pro 패널: agent 2개 감시 중, 끝나면 자동 슬립](docs/panel-pro.png)
+
+Pro는 agent를 감시합니다. 실제로 일하는 동안에만 Mac을 깨워 두고, 확인을 기다리면 알려주고,
+끝나면 Mac을 다시 슬립으로 돌려놓습니다. **이 패널 뒤의 감지 엔진은 클로즈드 소스이며
+이 저장소에 없습니다.**
 **[Nemuri](https://nemuri.app/ko/)에서 root로 실행되는 부분, 당신의 설정을 건드리는 부분, 외부로 통신할 수 있는 부분 — 직접 확인해 볼 수 있도록 공개합니다.**
 
 Nemuri는 AI 에이전트(Claude Code, Codex)가 일하는 동안 Mac을 깨워 두고 — 덮개를 닫아도 — 일이 끝나면 다시 잠들게 하는 macOS 메뉴 막대 도구입니다.

@@ -2,8 +2,18 @@
 
 [English](README.md) · **简体中文** · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-![Nemuri 菜单栏面板](docs/panel.png)
+### Free —— 手动保持唤醒
 
+![Nemuri Free 面板：手动保持唤醒，无 agent 检测](docs/panel-free.png)
+
+打开它，合盖也不睡。没有检测、没有自动化——需要你自己关掉。这就是免费版做的事。
+
+### Pro —— 检测自动化
+
+![Nemuri Pro 面板：正在看护两个 agent，跑完自动睡](docs/panel-pro.png)
+
+Pro 看护你的 agent：只在它们真正干活时保持唤醒，有 agent 等你确认时通知你，跑完了把 Mac 放回去睡。
+**这块面板背后的检测引擎是闭源的，不在本仓库里。**
 **[Nemuri](https://nemuri.app/zh/) 里以 root 运行、会动你配置、有可能偷偷联网的那些部分——全部公开出来，好让你自己去查。**
 
 Nemuri 是一款 macOS 菜单栏工具：AI agent（Claude Code、Codex）干活期间保持你的 Mac 唤醒——合着盖也照跑——活干完了再让它回去休眠。

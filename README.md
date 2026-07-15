@@ -2,8 +2,20 @@
 
 **English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-![Nemuri menu bar panel](docs/panel.png)
+### Free — the manual keep-awake switch
 
+![Nemuri Free panel: manual keep-awake, no agent detection](docs/panel-free.png)
+
+Flip it on, your Mac stays awake with the lid closed. No detection, no automation —
+you turn it off yourself. This is what the free app does.
+
+### Pro — detection automation
+
+![Nemuri Pro panel: watching two agents, auto-sleep when they finish](docs/panel-pro.png)
+
+Pro watches your agents, keeps the Mac awake only while they actually work, tells you
+when one is waiting for you, and puts the Mac back to sleep once they're done.
+**The detection engine behind this panel is closed-source and is not in this repository.**
 **The parts of [Nemuri](https://nemuri.app) that run as root, touch your config, or could phone home — published so you can check them yourself.**
 
 Nemuri is a macOS menu bar tool that keeps your Mac awake while an AI agent
@@ -60,7 +72,7 @@ That is a real limitation. We'd rather state it than blur it.
 ## 🛠 Build and audit it yourself
 
 ```bash
-swift build            # builds the helper, the hook bridges, and the core
+swift build   # builds the helper, the XPC contract, the hook bridges, and the core
 ```
 
 Requires macOS 13+ and Swift 5.9+. This tree builds standalone — no closed-source
@@ -92,7 +104,3 @@ Apache License 2.0 — see [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
 
 The closed-source parts of Nemuri (detection engine, app, licensing) are not
 covered by this license and are not distributed here.
-
----
-
-中文说明见 <https://nemuri.app>。
