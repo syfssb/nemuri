@@ -1,5 +1,9 @@
 # Nemuri — open core
 
+**English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
+
+![Nemuri menu bar panel](docs/panel.png)
+
 **The parts of [Nemuri](https://nemuri.app) that run as root, touch your config, or could phone home — published so you can check them yourself.**
 
 Nemuri is a macOS menu bar tool that keeps your Mac awake while an AI agent
