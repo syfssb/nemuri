@@ -2,18 +2,6 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-### Free —— 手動保持清醒
-
-![Nemuri Free 面板：手動保持清醒，無 agent 偵測](docs/panel-free.png)
-
-打開它，闔蓋也不睡。沒有偵測、沒有自動化——需要你自己關掉。這就是免費版做的事。
-
-### Pro —— 偵測自動化
-
-![Nemuri Pro 面板：正在看護兩個 agent，跑完自動睡](docs/panel-pro.png)
-
-Pro 看護你的 agent：只在它們真正幹活時保持清醒，有 agent 等你確認時通知你，跑完了把 Mac 放回去睡。
-**這塊面板背後的偵測引擎是閉源的，不在本 repo 裡。**
 **[Nemuri](https://nemuri.app/zh-hant/) 之中以 root 執行、會動到你設定檔、有可能偷偷連網的那些部分——全部公開出來，讓你可以自己查證。**
 
 Nemuri 是一款 macOS 選單列工具：AI agent（Claude Code、Codex）在工作時讓你的 Mac 保持清醒——闔上筆電也照跑——工作跑完再放它回去睡。
@@ -35,6 +23,8 @@ Nemuri 是一款 macOS 選單列工具：AI agent（Claude Code、Codex）在工
 
 **不在這個 repo 裡的：** 偵測引擎（處理程序／session／rollout 啟發式）、狀態機、離線授權驗簽，以及 SwiftUI app。這些都是閉源的——它們正是 Nemuri Pro 賣的東西。
 
+**Free 與 Pro 跑的是同一份程式碼，就是這個 repo 裡的這份。** root 助手、`pmset`／哨兵／電量原語、設定安裝器、hook bridge——兩檔共用一份，沒有第二份。你買不買 Pro，需要你信任的那部分程式碼都公開在這裡。
+
 所以請準確理解這份公開究竟給了你什麼：你可以稽核 **什麼東西以 root 執行**、**什麼東西被寫進你的設定**，以及 **有沒有任何程式碼開了通往網際網路的 socket**。你沒辦法用這個 repo 建置出完整的 Nemuri app，簽章 DMG 裡的那支二進位檔，也不是只從這棵原始碼樹建出來的。
 
 這是一個真實的限制。與其模糊帶過，我們寧可講清楚。
@@ -51,16 +41,30 @@ Nemuri 是一款 macOS 選單列工具：AI agent（Claude Code、Codex）在工
 ## 🛠 自己建置、自己稽核
 
 ```bash
-swift build            # 建置助手、hook bridge 與 core
+swift build   # 建置 root 助手、XPC 契約、core 原語，以及兩支 hook bridge
 ```
 
-需要 macOS 13+ 與 Swift 5.9+。這棵樹可以獨立建置——沒有閉源相依套件，建置過程也不連網。
+需要 macOS 13+ 與 Swift 5.9+。這棵樹可以獨立建置——沒有閉源相依套件，沒有任何第三方套件，建置過程也不連網。
 
 想先讀那個 root 元件，就從 `Sources/Helper/main.swift`（它是刻意寫短的）與 `Sources/Shared/AwakeShared.swift`（那串決定誰有資格對助手下令的 XPC requirement 字串）開始。
 
 ## 📦 取得 Nemuri
 
-正式版本（經過簽章與公證的 DMG）發布在本 repo 的 [Releases](https://github.com/syfssb/nemuri/releases) 頁面；v1.0 推出之後也會提供 Homebrew 安裝。手動保持清醒的開關可以免費使用；偵測自動化是一次買斷的付費升級。詳見 <https://nemuri.app/zh-hant/>。
+Nemuri 以經過簽章與公證的 DMG 發布，放在本 repo 的 [Releases](https://github.com/syfssb/nemuri/releases) 頁面。**v1.0 還沒推出**——在本 repo 按 Watch → Releases，推出時 GitHub 會通知你。完整產品說明見 <https://nemuri.app/zh-hant/>。
+
+### Free —— 手動保持清醒
+
+![Nemuri Free 面板：Agent Mode 已開，沒有 session 清單，agent 偵測標示為 Pro 功能](docs/panel-free.png)
+
+打開它，闔上蓋子也不睡，不用外接螢幕。免費版就到這裡：沒有偵測，也沒有自動化。它會一直保持清醒，直到你自己把它關掉；session 清單永遠是空的——面板會如實告訴你這件事，而不是假裝有。
+
+### Pro —— 偵測自動化
+
+![Nemuri Pro 面板：正在看護兩個 agent，一個在等你確認、一個在跑，跑完恢復睡眠](docs/panel-pro.png)
+
+Pro **只在你的 agent 真的在幹活時**才保持清醒，所以你可以一直開著不用管它。它會告訴你哪個 agent 在跑、哪個在等你確認，並在最後一個跑完之後把睡眠還給你。$19 一次買斷，一份 license 裝你所有的 Mac。**這塊面板背後的偵測引擎是閉源的，不在本 repo 裡。**
+
+**兩檔都有：** 永不卡死的四條復原路徑、電量保護、登入時啟動，以及同樣的更新。更新是手動的，這是刻意的：一支定時替你查更新的程式，本身就是在自己連網——而這正是這個 repo 要排除的事。想更新時去「設定 → 關於」裡按「檢查更新…」，那一次、也只有那一次，Nemuri 才碰網路。Free 也一樣，走同一條通道。
 
 ## 🤝 參與貢獻
 
@@ -73,7 +77,3 @@ swift build            # 建置助手、hook bridge 與 core
 Apache License 2.0——見 [`LICENSE`](LICENSE) 與 [`NOTICE`](NOTICE)。
 
 Nemuri 的閉源部分（偵測引擎、app、授權機制）不在本授權的涵蓋範圍內，也不在此散布。
-
----
-
-完整說明見 <https://nemuri.app/zh-hant/>。

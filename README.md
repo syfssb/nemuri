@@ -2,20 +2,6 @@
 
 **English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
-### Free — the manual keep-awake switch
-
-![Nemuri Free panel: manual keep-awake, no agent detection](docs/panel-free.png)
-
-Flip it on, your Mac stays awake with the lid closed. No detection, no automation —
-you turn it off yourself. This is what the free app does.
-
-### Pro — detection automation
-
-![Nemuri Pro panel: watching two agents, auto-sleep when they finish](docs/panel-pro.png)
-
-Pro watches your agents, keeps the Mac awake only while they actually work, tells you
-when one is waiting for you, and puts the Mac back to sleep once they're done.
-**The detection engine behind this panel is closed-source and is not in this repository.**
 **The parts of [Nemuri](https://nemuri.app) that run as root, touch your config, or could phone home — published so you can check them yourself.**
 
 Nemuri is a macOS menu bar tool that keeps your Mac awake while an AI agent
@@ -41,6 +27,11 @@ repository exists so you don't have to take our word for it.
 **Not in this repo:** the detection engine (process/session/rollout heuristics),
 the state machine, the offline license verification, and the SwiftUI app. Those
 are closed-source — they're what Nemuri Pro sells.
+
+**Free and Pro run the same code from this repo.** One copy of the root helper, the
+`pmset`/sentinel/battery primitives, the config installer, and the hook bridges serves
+both tiers. Whether or not you ever pay for Pro, the part that needs your trust is the
+part published here.
 
 So be precise about what this buys you: you can audit **what runs as root**, **what
 gets written into your config**, and **whether anything opens a socket to the
@@ -72,11 +63,11 @@ That is a real limitation. We'd rather state it than blur it.
 ## 🛠 Build and audit it yourself
 
 ```bash
-swift build   # builds the helper, the XPC contract, the hook bridges, and the core
+swift build   # the root helper, the XPC contract, the core primitives, and the two hook bridges
 ```
 
 Requires macOS 13+ and Swift 5.9+. This tree builds standalone — no closed-source
-dependency, no network access at build time.
+dependency, no third-party package, no network access at build time.
 
 To read the root component first, start at `Sources/Helper/main.swift` (it's short
 on purpose) and `Sources/Shared/AwakeShared.swift` (the XPC requirement string
@@ -84,10 +75,35 @@ that decides who is allowed to command the helper).
 
 ## 📦 Getting Nemuri
 
-Releases (signed, notarized DMG) are published on this repository's
-[Releases](https://github.com/syfssb/nemuri/releases) page, and via Homebrew once
-v1.0 ships. The app is free to use for the manual keep-awake switch; the
-detection automation is a one-time paid upgrade. See <https://nemuri.app>.
+Nemuri ships as a signed, notarized DMG, published on this repository's
+[Releases](https://github.com/syfssb/nemuri/releases) page. **v1.0 hasn't shipped
+yet** — click Watch → Releases on this repo and GitHub will tell you when it does.
+Full product details: <https://nemuri.app>.
+
+### Free — the manual keep-awake switch
+
+![Nemuri Free panel: Agent Mode on, no session list, agent detection marked as a Pro feature](docs/panel-free.png)
+
+Flip it on and your Mac stays awake with the lid closed, no external display needed.
+That is the whole free app: no detection, no automation. It holds the Mac awake until
+you turn it off yourself, and the session list stays empty — the panel tells you so
+instead of pretending otherwise.
+
+### Pro — detection automation
+
+![Nemuri Pro panel: watching two agents, one waiting for you, one running, sleep restored when they finish](docs/panel-pro.png)
+
+Pro keeps the Mac awake **only while your agents are actually working**, so you can
+leave Agent Mode on and stop thinking about it. It tells you which agent is running,
+which one is waiting for your confirmation, and restores sleep once the last one
+finishes. $19, one time — one license for every Mac you own. **The detection engine
+behind this panel is closed-source and is not in this repository.**
+
+**Both tiers** get the never-stuck recovery paths, the battery guard, launch at login,
+and the same updates. Updates are manual by design: a timer that checks for you is
+still a program reaching the network on its own, which is the thing this repository
+exists to rule out. Click “Check for Updates…” in Settings → About and that once —
+only that once — Nemuri goes online. Free included, same channel.
 
 ## 🤝 Contributing
 
