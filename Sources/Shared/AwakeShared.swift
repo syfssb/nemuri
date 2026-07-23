@@ -20,12 +20,17 @@ public enum AwakeIPC {
     /// helper 校验 XPC 对端用的 app signing identifier（make-app.sh 里 codesign --identifier 固定）
     public static let appSigningIdentifier = "app.nemuri.Nemuri"
     /// helper 侧 NSXPCListener.setConnectionCodeSigningRequirement 用的 requirement 字符串。
-    /// ad-hoc 阶段只能锁 identifier——任何本地进程 `codesign -s - --identifier` 同名即可冒充，
-    /// 已知局限：ad-hoc 阶段只锁 signing identifier，正式分发前会收紧为 anchor + team ID。
-    /// TODO(M4)：换 Developer ID 后只改这一个字符串，升级为
-    /// `anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */
-    ///  and certificate leaf[subject.OU] = "<TEAMID>" and identifier "app.nemuri.Nemuri"`。
-    public static let codeSigningRequirement = "identifier \"\(appSigningIdentifier)\""
+    /// M4 收紧（2026-07-15，换 Developer ID 后）：不再只锁 identifier——那样任何本地进程
+    /// `codesign -s - --identifier` 同名即可冒充。现要求对端由 Apple 根签发的 Developer ID
+    /// Application 证书（field.1.2.840.113635.100.6.1.13 是该证书的标记 OID）+ 属于本 Team
+    /// (subject.OU = 我们的 Team ID) + 固定 identifier。三条齐备才放行，自签冒充被拒。
+    /// Team ID `C36DGH2H9S` = Developer ID Application: Yunfeng Sun 的 OU。
+    public static let appTeamID = "C36DGH2H9S"
+    public static let codeSigningRequirement =
+        "anchor apple generic"
+        + " and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */"
+        + " and certificate leaf[subject.OU] = \"\(appTeamID)\""
+        + " and identifier \"\(appSigningIdentifier)\""
     /// 哨兵文件：存在 = 禁休眠由本产品设置且尚未恢复。开机时若残留即说明上次没能正常收尾，
     /// helper 据此把 disablesleep 恢复为 0（永不卡死的兜底路径）。
     public static let sentinelPath = "/Library/Application Support/Nemuri/sleep_disabled.flag"
